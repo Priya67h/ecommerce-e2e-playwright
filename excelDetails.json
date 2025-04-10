@@ -1,0 +1,6 @@
+{
+    "LoginPage":{
+        "ExcelWorkBook": "SauceDemoData.xlsx",
+        "ExcelWorkSheet": "Login Page Content"
+    }
+}

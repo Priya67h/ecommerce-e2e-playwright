@@ -32,9 +32,40 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'], headless: false },
+      name: 'Web Chrome',
+      use: {
+        browserName: 'chromium',
+        viewport: { width: 1280, height: 720 },
+        headless: false
+      },
+      testMatch: /.*web.*\.spec\.ts/
     },
+    {
+      name: 'Mobile Safari',
+      use: {
+        ...devices['iPhone 13'],
+        headless: false
+      },
+      testMatch: /.*mobile.*\.spec\.ts/
+    }
+
+    // {
+    //   name: 'Web Chrome',
+    //   testMatch: /.*login\.spec\.ts/,
+    //   use: {
+    //     browserName: 'chromium',
+    //     viewport: { width: 1280, height: 720 },
+    //     headless: false,
+    //   },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   testMatch: /.*login\.spec\.ts/,
+    //   use: {
+    //     ...devices['iPhone 13'],
+    //     headless: false,
+    //   },
+    // }
 
     // {
     //   name: 'firefox',
