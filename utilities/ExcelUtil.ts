@@ -14,7 +14,6 @@ export class ExcelUtil {
         const rows: any[] = [];
     sheet.eachRow((row, rowNumber) => {
         if (rowNumber === 1) return; // Skipping header row
-
         const rowData: any = {};
      if(sheet){
         sheet.getRow(1).eachCell((cell, colNumber) => {
