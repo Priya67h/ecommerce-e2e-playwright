@@ -7,6 +7,7 @@ export default class LoginPage {
     readonly passwordInput: Locator;
     readonly loginButton: Locator;
     readonly errorMessage: Locator;
+    loginWrapper: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -15,6 +16,7 @@ export default class LoginPage {
         this.passwordInput = page.locator('#password');
         this.loginButton = page.locator('#login-button');
         this.errorMessage = page.locator('.error-message-container');
+        this.loginWrapper = page.locator('.login_wrapper-inner');
     }
 
     async gotoLoginPage() {

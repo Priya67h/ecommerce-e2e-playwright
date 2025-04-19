@@ -1,3 +1,10 @@
+/**
+ * Excel Utility
+ * 
+ * This utility has functions/methods which are related to excel file update and extraction.
+ * 
+ */
+
 import * as ExcelJS from 'exceljs';
 
 //Variables Declarations
@@ -6,6 +13,14 @@ let sheet: ExcelJS.Worksheet | undefined;
 
 export class ExcelUtil {
 
+    constructor(){};
+
+    /**
+     * 
+     * @param filePath 
+     * @param sheetName 
+     * @returns 
+     */
    async readExcel(filePath: string, sheetName: string){
     workbook = new ExcelJS.Workbook();
     await workbook.xlsx.readFile(filePath);

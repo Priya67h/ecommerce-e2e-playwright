@@ -53,7 +53,7 @@ export default defineConfig({
 
     {
       name: 'Web Chrome',
-      testMatch: /.*login\.spec\.ts/,
+      testMatch: /.*login.*\.spec\.ts/,
       use: {
         browserName: 'chromium',
         viewport: { width: 1280, height: 720 },
@@ -62,7 +62,7 @@ export default defineConfig({
     },
     {
       name: 'Mobile Safari',
-      testMatch: /.*login\.spec\.ts/,
+      testMatch: /.*login.*\.spec\.ts/,
       use: {
         ...devices['iPhone 13'],
         headless: false,

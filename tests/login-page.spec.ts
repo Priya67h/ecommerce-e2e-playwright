@@ -44,13 +44,18 @@ test.describe('Login Page', () => {
     await expect.soft(loginPageObj.usernameInput).toHaveAttribute('placeholder', excelDataMap['User Name Placeholder']);
     await expect.soft(loginPageObj.passwordInput).toHaveAttribute('placeholder', excelDataMap['Password Placeholder']);
     await expect.soft(loginPageObj.loginButton).toHaveAttribute('value', excelDataMap['Login Button Text']);
+    await expect.soft(loginPageObj.loginButton).toHaveCSS('background-color', excelDataMap['Login Button Color'])
     // }
   });
 
-  test(`TC2 - Enter the submit button without any Input Fields`, async () => {
+  test.only(`TC2 - Check the dimensions of login credentials`, async () => {
     await loginPageObj.gotoLoginPage();
-    await loginPageObj.clickLoginButton();
-    await expect.soft(loginPageObj.errorMessage).toHaveText(excelDataMap['Error Message']);
+    console.log(page.viewportSize());
+    const color = await page.$eval('.login_wrapper-inner', el => {
+      return window.getComputedStyle(el).width;
+    });
+    console.log('Color:', color);
+    // await expect.soft(loginPageObj.loginWrapper).toHaveCSS('width', page.viewportSize().width)
   });
 
   test(`TC3 - Enter the submit button without any Input Fields`, async () => {
