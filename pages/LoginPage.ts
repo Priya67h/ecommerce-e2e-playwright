@@ -23,7 +23,15 @@ export default class LoginPage {
         await this.page.goto('/');
     }
 
-    async clickLoginButton(){
+    async clickLoginButton() {
         await this.loginButton.click();
+    }
+
+    async setUsername(inputData: string) {
+        await this.usernameInput.fill(inputData);
+    }
+
+    async setPassword(inputData: string) {
+        await this.passwordInput.fill(inputData);
     }
 }

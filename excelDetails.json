@@ -1,6 +1,10 @@
 {
-    "LoginPage":{
+    "LoginPageContent":{
         "ExcelWorkBook": "SauceDemoData.xlsx",
         "ExcelWorkSheet": "Login Page Content"
+    },
+    "LoginPageTCData":{
+        "ExcelWorkBook": "SauceDemoData.xlsx",
+        "ExcelWorkSheet": "Login Page TC Data"
     }
 }
