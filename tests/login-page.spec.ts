@@ -18,19 +18,24 @@ let loginPageContent;
 let loginPageTCData;
 let tcUserName: string;
 let tcPassword: string;
+let tcData: TCData;
 
 excelFilePath = 'SauceDemoData.xlsx';
 sheetName = 'Login Page Content';
 sheetName1 = 'Login Page TC Data';
 loginPageContentMap = {};
 
+interface TCData {
+  tcUsername: string,
+  tcPassword: string
+}
+
 test.describe('Login Page', () => {
 
   test.beforeAll(async ({ browser }) => {
-   let jsonData = await commonUtil.readJson('./excelDetails.json');
-   console.log("jsonData", jsonData)
-    excelUtil = new ExcelUtil();
     commonUtil = new CommonUtil();
+    excelUtil = new ExcelUtil();
+    let jsonData = await commonUtil.readJson('./excelDetails.json');
     loginPageContent = await excelUtil.readExcel(jsonData.LoginPageContent.ExcelWorkBook, jsonData.LoginPageContent.ExcelWorkSheet);
     loginPageContent.forEach((row: { Attribute: string; Value: string }) => {
       loginPageContentMap[row.Attribute.trim()] = row.Value.trim();
@@ -42,7 +47,7 @@ test.describe('Login Page', () => {
   });
 
   test.afterAll(async () => {
-    await context.close();
+    // await context.close();
   });
 
   test(`TC1 - Check the content in login page`, async ({ }, testInfo) => {
@@ -76,32 +81,28 @@ test.describe('Login Page', () => {
   });
 
   test(`TC4 - Enter the submit button without Password`, async () => {
-    tcNumber = await commonUtil.getTCNumber();
-    loginPageTCData.forEach(tcData =>{
-      if(tcNumber == tcData['Test Case number']){
-        tcUserName = tcData['User Name'];
-        tcPassword = tcData['Password'];
-      }
-    });
+    tcData = await commonUtil.getTCData(loginPageTCData);
     await loginPageObj.gotoLoginPage();
-    await loginPageObj.setUsername(tcUserName);
+    await loginPageObj.setUsername(tcData.tcUsername);
     await loginPageObj.clickLoginButton();
     await expect.soft(loginPageObj.errorMessage).toHaveText(loginPageContentMap['Error Message 2']);
+    expect.soft(loginPageObj.errorMessage.isVisible()).toBe(true);
+    await expect.soft(loginPageObj.errorMessage).toHaveCSS("background-color", loginPageContentMap['Error Message Background Color']);
+    await expect.soft(loginPageObj.usernameInput).toHaveCSS("border-bottom-color", loginPageContentMap['Error Message Color']);
+    await expect.soft(loginPageObj.passwordInput).toHaveCSS("border-bottom-color", loginPageContentMap['Error Message Color']);
+    await loginPageObj.errorMsgCloseButton.click();
+    await expect.soft(loginPageObj.passwordInput).toHaveCSS("border-bottom-color", loginPageContentMap['Error Message Color']);
+     expect.soft(loginPageObj.errorMessage.isVisible()).toBe(true);
   });
 
   test(`TC5 - Enter the submit button with invalid credentials`, async () => {
-    tcNumber = await commonUtil.getTCNumber();
-    loginPageTCData.forEach(tcData =>{
-      if(tcNumber == tcData['Test Case number']){
-        tcUserName = tcData['User Name'];
-        tcPassword = tcData['Password'];
-      }
-    });
+    tcData = await commonUtil.getTCData(loginPageTCData);
     await loginPageObj.gotoLoginPage();
-    await loginPageObj.setUsername(tcUserName);
-    await loginPageObj.setPassword(tcPassword);
+    await loginPageObj.setUsername(tcData.tcUsername);
+    await loginPageObj.setPassword(tcData.tcPassword);
     await loginPageObj.clickLoginButton();
     await expect.soft(loginPageObj.errorMessage).toHaveText(loginPageContentMap['Error Message 3']);
+    await expect.soft(loginPageObj.errorMessage).toHaveCSS("background-color", loginPageContentMap['Error Message Background Color']);
   });
 
 });

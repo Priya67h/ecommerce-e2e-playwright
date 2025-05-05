@@ -8,6 +8,8 @@
 import test from "@playwright/test";
 import * as fs from 'fs';
 
+let tcNumber: string;
+
 export class CommonUtil {
 
     async getTestCaseName(): Promise<string> {
@@ -40,6 +42,18 @@ export class CommonUtil {
         rawData = fs.readFileSync(jsonPath, 'utf-8');
         jsonData = JSON.parse(rawData);
         return jsonData;
+    }
+
+    async getTCData(reqData) {
+        let tcUsername, tcPassword;
+        tcNumber = await this.getTCNumber();
+        for (let tcData of reqData) {
+            if (tcNumber == tcData['Test Case number']) {
+                tcUsername = tcData['User Name']
+                tcPassword = tcData['Password']
+            }
+        }
+        return { tcUsername, tcPassword };
     }
 }
 
